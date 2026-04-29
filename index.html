@@ -1035,6 +1035,129 @@
         grid-template-columns: 1fr
       }
     }
+    /* ===== PRODUCT DETAIL PAGE ===== */
+    .product-detail-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .product-detail-breadcrumb {
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .product-detail-breadcrumb a {
+      color: var(--accent);
+    }
+
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-bottom: 4rem;
+    }
+
+    .product-detail-image img {
+      width: 100%;
+      border-radius: var(--radius);
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    .product-detail-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .product-detail-info h1 {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .product-detail-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+
+    .product-detail-price {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .product-detail-description {
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .product-detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-detail-meta span {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+    }
+
+    .product-detail-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .product-recs-section {
+      border-top: 1px solid var(--border);
+      padding-top: 3rem;
+    }
+
+    .product-recs-section h2 {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .recs-placeholder {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--text-light);
+      font-style: italic;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    @media (max-width: 900px) {
+      .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .product-detail-info h1 {
+        font-size: 1.8rem;
+      }
+    }
   </style>
 </head>
 
@@ -1241,10 +1364,13 @@
 
     <div class="filter-bar target-zone" data-mbox="product-filters">
       <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('apparel',this)">Apparel</button>
+      <button class="filter-btn" onclick="filterProducts('accessories',this)">Accessories</button>
+      <button class="filter-btn" onclick="filterProducts('wellness',this)">Wellness</button>
+      <button class="filter-btn" onclick="filterProducts('home',this)">Home</button>
       <button class="filter-btn" onclick="filterProducts('skincare',this)">Skincare</button>
       <button class="filter-btn" onclick="filterProducts('body',this)">Body Care</button>
       <button class="filter-btn" onclick="filterProducts('aromatherapy',this)">Aromatherapy</button>
-      <button class="filter-btn" onclick="filterProducts('wellness',this)">Wellness</button>
     </div>
 
     <div class="products-grid-full target-zone" data-mbox="product-listing" id="product-listing">
@@ -1337,6 +1463,59 @@
         <div class="info">
           <h3>Meditation Starter Bundle</h3>
           <p class="price">₹2,199</p>
+        </div>
+      </div>
+
+      <!-- Feed products from ashish_feed_test.csv — ingested in Adobe Target -->
+      <div class="product-card" data-category="apparel" onclick="navigateProduct('ms001')" style="cursor:pointer;">
+        <div class="img-wrap">
+          <img src="https://placehold.co/400x400/f5e8d8/8a6d4b?text=Cotton%0AKurta" alt="Cotton Kurta" loading="lazy">
+          <span class="tag-badge">Bestseller</span>
+        </div>
+        <div class="info">
+          <h3>Cotton Kurta</h3>
+          <p class="price">₹1,499</p>
+        </div>
+      </div>
+      <div class="product-card" data-category="apparel" onclick="navigateProduct('ms003')" style="cursor:pointer;">
+        <div class="img-wrap">
+          <img src="https://placehold.co/400x400/d4473a/ffffff?text=Silk%0ASaree" alt="Silk Saree" loading="lazy">
+          <span class="tag-badge">Premium</span>
+        </div>
+        <div class="info">
+          <h3>Silk Saree</h3>
+          <p class="price">₹8,999</p>
+        </div>
+      </div>
+      <div class="product-card" data-category="accessories" onclick="navigateProduct('ms011')" style="cursor:pointer;">
+        <div class="img-wrap">
+          <img src="https://placehold.co/400x400/8b5e3c/ffffff?text=Leather%0AHandbag" alt="Leather Handbag"
+            loading="lazy">
+        </div>
+        <div class="info">
+          <h3>Leather Handbag</h3>
+          <p class="price">₹4,999</p>
+        </div>
+      </div>
+      <div class="product-card" data-category="wellness" onclick="navigateProduct('ms019')" style="cursor:pointer;">
+        <div class="img-wrap">
+          <img src="https://placehold.co/400x400/7b5ea7/ffffff?text=Yoga%0AMat" alt="Yoga Mat" loading="lazy">
+          <span class="tag-badge">Popular</span>
+        </div>
+        <div class="info">
+          <h3>Yoga Mat</h3>
+          <p class="price">₹1,999</p>
+        </div>
+      </div>
+      <div class="product-card" data-category="home" onclick="navigateProduct('ms026')" style="cursor:pointer;">
+        <div class="img-wrap">
+          <img src="https://placehold.co/400x400/c4713e/ffffff?text=Ceramic%0AVase" alt="Hand-thrown Vase"
+            loading="lazy">
+          <span class="tag-badge">New</span>
+        </div>
+        <div class="info">
+          <h3>Hand-thrown Vase</h3>
+          <p class="price">₹1,899</p>
         </div>
       </div>
     </div>
@@ -1531,6 +1710,338 @@
     </section>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- PRODUCT DETAIL: MS001 — Cotton Kurta -->
+  <!-- ============================================================ -->
+  <div id="page-product-ms001" class="page"
+    data-entity-id="MS001"
+    data-entity-name="Cotton Kurta"
+    data-entity-category="apparel"
+    data-entity-price="1499"
+    data-entity-brand="Moksha"
+    data-entity-rating="4.5"
+    data-entity-inventory="120"
+    data-entity-color="white"
+    data-entity-material="cotton">
+    <div class="product-detail-wrap">
+      <div class="product-detail-breadcrumb">
+        <a href="#products" onclick="navigate('products')">← Back to Collection</a>
+      </div>
+      <div class="product-detail-grid">
+        <div class="product-detail-image target-zone" data-mbox="pdp-image">
+          <img src="https://placehold.co/600x600/f5e8d8/8a6d4b?text=Cotton%0AKurta" alt="Cotton Kurta">
+        </div>
+        <div class="product-detail-info target-zone" data-mbox="pdp-info">
+          <span class="product-detail-category">Apparel</span>
+          <h1>Cotton Kurta</h1>
+          <div class="product-detail-rating">★★★★½ &nbsp;4.5 · 120 in stock</div>
+          <p class="product-detail-price">₹1,499</p>
+          <p class="product-detail-description">Comfortable everyday wear crafted from 100% pure cotton. Breathable, lightweight, and perfect for all-day comfort rooted in artisan tradition.</p>
+          <div class="product-detail-meta">
+            <span>Brand: Moksha</span>
+            <span>Material: Cotton</span>
+            <span>Color: White</span>
+            <span>Category: Apparel</span>
+          </div>
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" onclick="alert('Added to cart! (Test site)')">Add to Cart →</button>
+            <a href="#products" class="btn btn-outline" onclick="navigate('products')">View All</a>
+          </div>
+        </div>
+      </div>
+      <section class="product-recs-section target-zone" data-mbox="product-recommendations">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid">
+          <p class="recs-placeholder">Adobe Target Recommendations will inject products here based on entity.id = MS001</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      // Adobe Target entity params for Recommendations — fires when this product page view is triggered
+      window.targetEntityParams_MS001 = {
+        'entity.id': 'MS001',
+        'entity.name': 'Cotton Kurta',
+        'entity.categoryId': 'apparel',
+        'entity.value': 1499,
+        'entity.pageUrl': window.location.origin + window.location.pathname + '#products/ms001',
+        'entity.thumbnailUrl': 'https://miniature-fortnight-steel.vercel.app/images/kurta.jpg',
+        'entity.message': 'Comfortable everyday wear',
+        'entity.inventory': 120,
+        'entity.margin': 0.45,
+        'entity.custom1': 'Moksha',
+        'entity.custom3': 4.5,
+        'entity.custom4': 'white',
+        'entity.custom5': 'cotton'
+      };
+      // With at.js 2.x: adobe.target.triggerView('products/ms001', { parameters: window.targetEntityParams_MS001 });
+      // With Web SDK: alloy("sendEvent", { renderDecisions: true, data: { __adobe: { target: window.targetEntityParams_MS001 } } });
+    </script>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PRODUCT DETAIL: MS003 — Silk Saree -->
+  <!-- ============================================================ -->
+  <div id="page-product-ms003" class="page"
+    data-entity-id="MS003"
+    data-entity-name="Silk Saree"
+    data-entity-category="apparel"
+    data-entity-price="8999"
+    data-entity-brand="Heritage"
+    data-entity-rating="4.8"
+    data-entity-inventory="32"
+    data-entity-color="red"
+    data-entity-material="silk">
+    <div class="product-detail-wrap">
+      <div class="product-detail-breadcrumb">
+        <a href="#products" onclick="navigate('products')">← Back to Collection</a>
+      </div>
+      <div class="product-detail-grid">
+        <div class="product-detail-image target-zone" data-mbox="pdp-image">
+          <img src="https://placehold.co/600x600/d4473a/ffffff?text=Silk%0ASaree" alt="Silk Saree">
+        </div>
+        <div class="product-detail-info target-zone" data-mbox="pdp-info">
+          <span class="product-detail-category">Apparel</span>
+          <h1>Silk Saree</h1>
+          <div class="product-detail-rating">★★★★★ &nbsp;4.8 · 32 in stock</div>
+          <p class="product-detail-price">₹8,999</p>
+          <p class="product-detail-description">Hand-woven silk saree by master artisans. A timeless piece rooted in centuries of Indian weaving heritage — elegant, lustrous, and heirloom-worthy.</p>
+          <div class="product-detail-meta">
+            <span>Brand: Heritage</span>
+            <span>Material: Silk</span>
+            <span>Color: Red</span>
+            <span>Category: Apparel</span>
+          </div>
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" onclick="alert('Added to cart! (Test site)')">Add to Cart →</button>
+            <a href="#products" class="btn btn-outline" onclick="navigate('products')">View All</a>
+          </div>
+        </div>
+      </div>
+      <section class="product-recs-section target-zone" data-mbox="product-recommendations">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid">
+          <p class="recs-placeholder">Adobe Target Recommendations will inject products here based on entity.id = MS003</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      window.targetEntityParams_MS003 = {
+        'entity.id': 'MS003',
+        'entity.name': 'Silk Saree',
+        'entity.categoryId': 'apparel',
+        'entity.value': 8999,
+        'entity.pageUrl': window.location.origin + window.location.pathname + '#products/ms003',
+        'entity.thumbnailUrl': 'https://miniature-fortnight-steel.vercel.app/images/saree.jpg',
+        'entity.message': 'Hand-woven silk',
+        'entity.inventory': 32,
+        'entity.margin': 0.55,
+        'entity.custom1': 'Heritage',
+        'entity.custom3': 4.8,
+        'entity.custom4': 'red',
+        'entity.custom5': 'silk'
+      };
+      // With at.js 2.x: adobe.target.triggerView('products/ms003', { parameters: window.targetEntityParams_MS003 });
+    </script>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PRODUCT DETAIL: MS011 — Leather Handbag -->
+  <!-- ============================================================ -->
+  <div id="page-product-ms011" class="page"
+    data-entity-id="MS011"
+    data-entity-name="Leather Handbag"
+    data-entity-category="accessories"
+    data-entity-price="4999"
+    data-entity-brand="Moksha"
+    data-entity-rating="4.6"
+    data-entity-inventory="42"
+    data-entity-color="brown"
+    data-entity-material="leather">
+    <div class="product-detail-wrap">
+      <div class="product-detail-breadcrumb">
+        <a href="#products" onclick="navigate('products')">← Back to Collection</a>
+      </div>
+      <div class="product-detail-grid">
+        <div class="product-detail-image target-zone" data-mbox="pdp-image">
+          <img src="https://placehold.co/600x600/8b5e3c/ffffff?text=Leather%0AHandbag" alt="Leather Handbag">
+        </div>
+        <div class="product-detail-info target-zone" data-mbox="pdp-info">
+          <span class="product-detail-category">Accessories</span>
+          <h1>Leather Handbag</h1>
+          <div class="product-detail-rating">★★★★½ &nbsp;4.6 · 42 in stock</div>
+          <p class="product-detail-price">₹4,999</p>
+          <p class="product-detail-description">Crafted from genuine full-grain leather. Spacious, structured, and built to age beautifully — a companion for every occasion.</p>
+          <div class="product-detail-meta">
+            <span>Brand: Moksha</span>
+            <span>Material: Leather</span>
+            <span>Color: Brown</span>
+            <span>Category: Accessories</span>
+          </div>
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" onclick="alert('Added to cart! (Test site)')">Add to Cart →</button>
+            <a href="#products" class="btn btn-outline" onclick="navigate('products')">View All</a>
+          </div>
+        </div>
+      </div>
+      <section class="product-recs-section target-zone" data-mbox="product-recommendations">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid">
+          <p class="recs-placeholder">Adobe Target Recommendations will inject products here based on entity.id = MS011</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      window.targetEntityParams_MS011 = {
+        'entity.id': 'MS011',
+        'entity.name': 'Leather Handbag',
+        'entity.categoryId': 'accessories',
+        'entity.value': 4999,
+        'entity.pageUrl': window.location.origin + window.location.pathname + '#products/ms011',
+        'entity.thumbnailUrl': 'https://miniature-fortnight-steel.vercel.app/images/handbag.jpg',
+        'entity.message': 'Genuine leather',
+        'entity.inventory': 42,
+        'entity.margin': 0.5,
+        'entity.custom1': 'Moksha',
+        'entity.custom3': 4.6,
+        'entity.custom4': 'brown',
+        'entity.custom5': 'leather'
+      };
+      // With at.js 2.x: adobe.target.triggerView('products/ms011', { parameters: window.targetEntityParams_MS011 });
+    </script>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PRODUCT DETAIL: MS019 — Yoga Mat -->
+  <!-- ============================================================ -->
+  <div id="page-product-ms019" class="page"
+    data-entity-id="MS019"
+    data-entity-name="Yoga Mat"
+    data-entity-category="wellness"
+    data-entity-price="1999"
+    data-entity-brand="FlexFit"
+    data-entity-rating="4.7"
+    data-entity-inventory="85"
+    data-entity-color="purple"
+    data-entity-material="rubber">
+    <div class="product-detail-wrap">
+      <div class="product-detail-breadcrumb">
+        <a href="#products" onclick="navigate('products')">← Back to Collection</a>
+      </div>
+      <div class="product-detail-grid">
+        <div class="product-detail-image target-zone" data-mbox="pdp-image">
+          <img src="https://placehold.co/600x600/7b5ea7/ffffff?text=Yoga%0AMat" alt="Yoga Mat">
+        </div>
+        <div class="product-detail-info target-zone" data-mbox="pdp-info">
+          <span class="product-detail-category">Wellness</span>
+          <h1>Yoga Mat</h1>
+          <div class="product-detail-rating">★★★★½ &nbsp;4.7 · 85 in stock</div>
+          <p class="product-detail-price">₹1,999</p>
+          <p class="product-detail-description">Eco-friendly natural rubber yoga mat with superior grip and cushioning. Non-slip surface supports every asana from beginner to advanced practice.</p>
+          <div class="product-detail-meta">
+            <span>Brand: FlexFit</span>
+            <span>Material: Rubber</span>
+            <span>Color: Purple</span>
+            <span>Category: Wellness</span>
+          </div>
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" onclick="alert('Added to cart! (Test site)')">Add to Cart →</button>
+            <a href="#products" class="btn btn-outline" onclick="navigate('products')">View All</a>
+          </div>
+        </div>
+      </div>
+      <section class="product-recs-section target-zone" data-mbox="product-recommendations">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid">
+          <p class="recs-placeholder">Adobe Target Recommendations will inject products here based on entity.id = MS019</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      window.targetEntityParams_MS019 = {
+        'entity.id': 'MS019',
+        'entity.name': 'Yoga Mat',
+        'entity.categoryId': 'wellness',
+        'entity.value': 1999,
+        'entity.pageUrl': window.location.origin + window.location.pathname + '#products/ms019',
+        'entity.thumbnailUrl': 'https://miniature-fortnight-steel.vercel.app/images/yoga-mat.jpg',
+        'entity.message': 'Eco-friendly',
+        'entity.inventory': 85,
+        'entity.margin': 0.5,
+        'entity.custom1': 'FlexFit',
+        'entity.custom3': 4.7,
+        'entity.custom4': 'purple',
+        'entity.custom5': 'rubber'
+      };
+      // With at.js 2.x: adobe.target.triggerView('products/ms019', { parameters: window.targetEntityParams_MS019 });
+    </script>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PRODUCT DETAIL: MS026 — Hand-thrown Vase -->
+  <!-- ============================================================ -->
+  <div id="page-product-ms026" class="page"
+    data-entity-id="MS026"
+    data-entity-name="Hand-thrown Vase"
+    data-entity-category="home"
+    data-entity-price="1899"
+    data-entity-brand="Heritage"
+    data-entity-rating="4.7"
+    data-entity-inventory="38"
+    data-entity-color="terracotta"
+    data-entity-material="ceramic">
+    <div class="product-detail-wrap">
+      <div class="product-detail-breadcrumb">
+        <a href="#products" onclick="navigate('products')">← Back to Collection</a>
+      </div>
+      <div class="product-detail-grid">
+        <div class="product-detail-image target-zone" data-mbox="pdp-image">
+          <img src="https://placehold.co/600x600/c4713e/ffffff?text=Ceramic%0AVase" alt="Hand-thrown Vase">
+        </div>
+        <div class="product-detail-info target-zone" data-mbox="pdp-info">
+          <span class="product-detail-category">Home</span>
+          <h1>Hand-thrown Vase</h1>
+          <div class="product-detail-rating">★★★★½ &nbsp;4.7 · 38 in stock</div>
+          <p class="product-detail-price">₹1,899</p>
+          <p class="product-detail-description">Studio ceramic vase individually hand-thrown on a wheel. Each piece is unique — slight variations in form and glaze are a mark of authentic craftsmanship.</p>
+          <div class="product-detail-meta">
+            <span>Brand: Heritage</span>
+            <span>Material: Ceramic</span>
+            <span>Color: Terracotta</span>
+            <span>Category: Home</span>
+          </div>
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" onclick="alert('Added to cart! (Test site)')">Add to Cart →</button>
+            <a href="#products" class="btn btn-outline" onclick="navigate('products')">View All</a>
+          </div>
+        </div>
+      </div>
+      <section class="product-recs-section target-zone" data-mbox="product-recommendations">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid">
+          <p class="recs-placeholder">Adobe Target Recommendations will inject products here based on entity.id = MS026</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      window.targetEntityParams_MS026 = {
+        'entity.id': 'MS026',
+        'entity.name': 'Hand-thrown Vase',
+        'entity.categoryId': 'home',
+        'entity.value': 1899,
+        'entity.pageUrl': window.location.origin + window.location.pathname + '#products/ms026',
+        'entity.thumbnailUrl': 'https://miniature-fortnight-steel.vercel.app/images/vase.jpg',
+        'entity.message': 'Studio ceramic',
+        'entity.inventory': 38,
+        'entity.margin': 0.5,
+        'entity.custom1': 'Heritage',
+        'entity.custom3': 4.7,
+        'entity.custom4': 'terracotta',
+        'entity.custom5': 'ceramic'
+      };
+      // With at.js 2.x: adobe.target.triggerView('products/ms026', { parameters: window.targetEntityParams_MS026 });
+    </script>
+  </div>
+
   <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-inner">
@@ -1580,11 +2091,37 @@
       window.location.hash = page;
     }
 
+    function navigateProduct(productId) {
+      window.location.hash = 'products/' + productId;
+    }
+
     function handleRoute() {
       const hash = window.location.hash.replace('#', '') || 'home';
 
       // Hide all pages
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+      // Handle product detail URLs: #products/ms001
+      if (hash.startsWith('products/')) {
+        const productId = hash.split('/')[1].toLowerCase();
+        const detailPage = document.getElementById('page-product-' + productId);
+        if (detailPage) {
+          detailPage.classList.add('active');
+          // Keep "Products" nav link active on detail pages
+          document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.remove('active');
+            if (a.getAttribute('data-nav') === 'products') a.classList.add('active');
+          });
+          window.scrollTo(0, 0);
+          console.log('[Target SPA] Product detail view:', hash);
+          window.dispatchEvent(new CustomEvent('spa-view-change', { detail: { view: hash } }));
+          return;
+        }
+        // No detail page for this ID — fall back to products listing
+        document.getElementById('page-products').classList.add('active');
+        window.scrollTo(0, 0);
+        return;
+      }
 
       // Show target page
       const targetPage = document.getElementById('page-' + hash);
@@ -1604,11 +2141,8 @@
       window.scrollTo(0, 0);
 
       // ===== ADOBE TARGET SPA VIEW CHANGE =====
-      // This is where you'd trigger a Target view change notification
-      // With at.js 2.x:
-      //   adobe.target.triggerView(hash);
-      // With Web SDK:
-      //   alloy("sendEvent", { xdm: { web: { webPageDetails: { viewName: hash } } }, renderDecisions: true });
+      // With at.js 2.x: adobe.target.triggerView(hash);
+      // With Web SDK: alloy("sendEvent", { xdm: { web: { webPageDetails: { viewName: hash } } }, renderDecisions: true });
 
       console.log('[Target SPA] View changed:', hash);
 
