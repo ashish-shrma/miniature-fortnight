@@ -1238,8 +1238,7 @@
 
     </script>
 
-    <script src="https://assets.adobedtm.com/6a203c8a0ff8/4d3b14477614/launch-496fd487c23d-development.min.js"
-      async></script>
+    <script src="https://assets.adobedtm.com/6a203c8a0ff8/712c4b593b90/launch-2cd4ddbbc6f3-development.min.js" async></script>
 
   </header>
   <!-- ============================================================ -->
@@ -2173,48 +2172,22 @@
       console.log('[Target] Product filter:', category);
     }
 
-    // ===== TARGET INTEGRATION HOOKS =====
-    // These are placeholder hooks for Adobe Target integration.
-    // Uncomment and modify based on your implementation method.
-
-    /*
-    // === OPTION 1: at.js 2.x Integration ===
-    // Add this BEFORE the closing </head> tag:
-    // <script src="https://assets.adobedtm.com/YOUR_PROPERTY_ID/launch-XXXXXXXX.min.js" async><\/script>
-    
-    // For SPA view tracking with at.js 2.x:
-    window.addEventListener('spa-view-change', function(e) {
-      if (window.adobe && window.adobe.target) {
-        adobe.target.triggerView(e.detail.view);
+    // ===== WEB SDK: SPA VIEW TRACKING =====
+    // Initial page-load sendEvent is fired by a Launch rule (Library Loaded → Send event).
+    // This listener handles subsequent in-page SPA navigation dispatched by navigate().
+    window.addEventListener('spa-view-change', function (e) {
+      if (typeof window.alloy !== 'function') {
+        console.warn('[Web SDK] alloy not yet loaded — skipping view:', e.detail && e.detail.view);
+        return;
       }
+      window.alloy('sendEvent', {
+        renderDecisions: true,
+        xdm: {
+          web: { webPageDetails: { viewName: e.detail.view } },
+          eventType: 'web.webpagedetails.pageViews'
+        }
+      });
     });
-    
-    
-    // === OPTION 2: Web SDK (Alloy.js) Integration ===
-    // Configure in Adobe Experience Platform Data Collection (Tags)
-    // or manually:
-    
-    // alloy("configure", {
-    //   datastreamId: "YOUR_DATASTREAM_ID",
-    //   orgId: "YOUR_ORG_ID@AdobeOrg",
-    //   targetMigrationEnabled: true  // if migrating from at.js
-    // });
-    
-    // For SPA view tracking with Web SDK:
-    // window.addEventListener('spa-view-change', function(e) {
-    //   alloy("sendEvent", {
-    //     renderDecisions: true,
-    //     xdm: {
-    //       web: {
-    //         webPageDetails: {
-    //           viewName: e.detail.view
-    //         }
-    //       },
-    //       eventType: "web.webpagedetails.pageViews"
-    //     }
-    //   });
-    // });
-    */
 
     // ===== CONSOLE GUIDE =====
     console.log('%c🎯 Moksha Store — Adobe Target Test SPA', 'font-size:16px;font-weight:bold;color:#c45d3e;');
