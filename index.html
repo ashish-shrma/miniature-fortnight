@@ -2436,7 +2436,42 @@
         if (slot) slot.innerHTML = '<div class="hero-banner-default"></div>';
       }
 
+      // Expose values as window vars so Launch data elements (JS Object type)
+      // can read them: window.loyaltyTier, window.isLoggedIn, etc.
+      function setWindowVars(user) {
+        window.loyaltyId    = user.username;
+        window.loyaltyTier  = user.loyaltyTier;
+        window.isLoggedIn   = true;
+        window.storeRegion  = user.storeRegion;
+        window.postalCode   = user.postalCode;
+      }
+      function clearWindowVars() {
+        window.loyaltyId    = null;
+        window.loyaltyTier  = null;
+        window.isLoggedIn   = false;
+        window.storeRegion  = null;
+        window.postalCode   = null;
+      }
+
       function sendLoginEvent(alloy, user) {
+        setWindowVars(user);
+
+        // Preferred path: fire a Launch "Direct Call" rule that uses your
+        // XDM data element (which reads the window vars above) to send the
+        // event with the correct XDM shape. Create in Launch:
+        //   Rule: "Capstone1 – user logged in"
+        //     Event  : Core → Direct Call → identifier = "userLoggedIn"
+        //     Action : Adobe Experience Platform Web SDK → Send event
+        //              XDM = your XDM Object data element
+        //              Decision scopes = ["hero-banner"]
+        if (window._satellite && typeof window._satellite.track === 'function') {
+          log('_satellite.track("userLoggedIn")');
+          window._satellite.track('userLoggedIn');
+        }
+
+        // Also send directly via alloy so we can capture the returned
+        // propositions here and render the hero without waiting for the
+        // Launch rule to fire in parallel. Both events carry the same XDM.
         var payload = {
           xdm: {
             eventType: 'userLoggedIn',
@@ -2447,11 +2482,13 @@
                 primary: true
               }]
             },
-            userProfile: {
-              loyaltyTier: user.loyaltyTier,
-              isLoggedIn: true,
-              storeRegion: user.storeRegion,
-              postalCode: user.postalCode
+            _aepsupport: {
+              userProfile: {
+                loyaltyTier: user.loyaltyTier,
+                isLoggedIn: true,
+                storeRegion: user.storeRegion,
+                postalCode: user.postalCode
+              }
             }
           },
           data: {
@@ -2524,6 +2561,7 @@
 
         $('capstone-logout').addEventListener('click', function () {
           clearUser();
+          clearWindowVars();
           applyLoggedOutUi();
         });
 
