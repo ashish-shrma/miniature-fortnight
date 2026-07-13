@@ -1158,6 +1158,137 @@
         font-size: 1.8rem;
       }
     }
+
+    /* ===== CAPSTONE 1: hero-banner slot ===== */
+    .hero-banner-slot {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+    }
+    .hero-banner-default {
+      display: none;
+    }
+    .hero-banner-slot .premium-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 32px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #f6e2b3, #d4a24c);
+      color: #1a1612;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-banner-slot .premium-hero h2 {
+      font-family: var(--serif);
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .hero-banner-slot .premium-hero p {
+      font-size: 0.9em;
+      color: #3a2f1e;
+    }
+    .hero-banner-slot .premium-hero button {
+      background: #1a1612;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: var(--radius);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ===== CAPSTONE 1: login UI ===== */
+    .nav-login-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      font-size: 0.85em;
+      font-weight: 500;
+      margin-left: 12px;
+    }
+    .nav-login-btn:hover { background: var(--accent-hover); }
+    .nav-user-chip {
+      font-size: 0.8em;
+      color: var(--text-mid);
+      margin-left: 12px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-user-chip button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      font-size: 0.85em;
+    }
+    body.is-logged-in .nav-user-chip { display: inline-flex; }
+    body.is-logged-in .nav-login-btn { display: none; }
+
+    .login-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 22, 18, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .login-modal-backdrop.open { display: flex; }
+    .login-modal {
+      background: var(--surface);
+      padding: 28px;
+      border-radius: var(--radius);
+      width: 380px;
+      max-width: 90vw;
+      box-shadow: var(--shadow-lg);
+    }
+    .login-modal h3 {
+      font-family: var(--serif);
+      font-size: 1.6em;
+      margin-bottom: 16px;
+    }
+    .login-modal label {
+      display: block;
+      font-size: 0.8em;
+      color: var(--text-mid);
+      margin: 12px 0 4px;
+    }
+    .login-modal input, .login-modal select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9em;
+      background: var(--bg);
+    }
+    .login-modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+      justify-content: flex-end;
+    }
+    .login-modal-actions button {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      border: none;
+    }
+    .login-modal-actions .cancel {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+    }
+    .login-modal-actions .submit {
+      background: var(--accent);
+      color: #fff;
+    }
   </style>
 </head>
 
@@ -1187,6 +1318,11 @@
         </svg>
         <span class="cart-count">2</span>
       </a>
+      <button type="button" class="nav-login-btn" id="capstone-login-open">Log in</button>
+      <span class="nav-user-chip" id="capstone-user-chip">
+        <span id="capstone-user-name"></span>
+        <button type="button" id="capstone-logout">Log out</button>
+      </span>
       <button class="hamburger"
         onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
@@ -1245,6 +1381,13 @@
   <!-- PAGE: HOME -->
   <!-- ============================================================ -->
   <div id="page-home" class="page active">
+
+    <!-- ===== CAPSTONE 1: hero-banner scope (Target Combined Audience) ===== -->
+    <div class="hero-banner-slot target-zone" data-mbox="hero-banner" id="hero-banner">
+      <div class="hero-banner-default">
+        <!-- default (fallback) content is empty; Target injects premium hero HTML for qualifying users -->
+      </div>
+    </div>
 
     <section class="hero">
       <div class="hero-text target-zone" data-mbox="hero-headline">
@@ -2218,6 +2361,180 @@
     console.log('%c\nSPA Views:', 'font-weight:bold;');
     console.log('home, products, about, blog, contact');
     console.log('%c\nTo integrate Target, see the commented code in the source.', 'color:#3a7d5c;font-style:italic;');
+  </script>
+
+  <!-- ===== CAPSTONE 1: Login modal ===== -->
+  <div class="login-modal-backdrop" id="capstone-modal">
+    <form class="login-modal" id="capstone-login-form">
+      <h3>Sign in</h3>
+      <p style="font-size:0.85em;color:var(--text-mid);">Demo login — feeds AEP identity + userProfile traits and Target profile params.</p>
+
+      <label for="capstone-username">Email</label>
+      <input type="text" id="capstone-username" value="demo.user@example.com" required />
+
+      <label for="capstone-loyalty">Loyalty tier</label>
+      <select id="capstone-loyalty">
+        <option value="none">None</option>
+        <option value="silver">Silver</option>
+        <option value="gold" selected>Gold</option>
+        <option value="platinum">Platinum</option>
+      </select>
+
+      <label for="capstone-postal">Postal code</label>
+      <input type="text" id="capstone-postal" value="94103" />
+
+      <label for="capstone-region">Preferred store region</label>
+      <select id="capstone-region">
+        <option value="West" selected>West</option>
+        <option value="East">East</option>
+        <option value="North">North</option>
+        <option value="South">South</option>
+      </select>
+
+      <div class="login-modal-actions">
+        <button type="button" class="cancel" id="capstone-cancel">Cancel</button>
+        <button type="submit" class="submit">Log in</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== CAPSTONE 1: Web SDK personalization for hero-banner ===== -->
+  <script>
+    (function () {
+      var HERO_SCOPE = 'hero-banner';
+      var STORAGE_KEY = 'capstone1.user';
+      var $ = function (id) { return document.getElementById(id); };
+
+      function log() {
+        var args = ['[capstone1]'].concat([].slice.call(arguments));
+        console.log.apply(console, args);
+      }
+
+      function loadUser() {
+        try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null'); }
+        catch (e) { return null; }
+      }
+      function saveUser(u) { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(u)); }
+      function clearUser() { sessionStorage.removeItem(STORAGE_KEY); }
+
+      function whenAlloyReady() {
+        return new Promise(function (resolve) {
+          (function check() {
+            if (typeof window.alloy === 'function') return resolve(window.alloy);
+            setTimeout(check, 50);
+          })();
+        });
+      }
+
+      function applyLoggedInUi(user) {
+        document.body.classList.add('is-logged-in');
+        $('capstone-user-name').textContent = user.username;
+      }
+      function applyLoggedOutUi() {
+        document.body.classList.remove('is-logged-in');
+        var slot = $('hero-banner');
+        if (slot) slot.innerHTML = '<div class="hero-banner-default"></div>';
+      }
+
+      function sendLoginEvent(alloy, user) {
+        var payload = {
+          xdm: {
+            eventType: 'userLoggedIn',
+            identityMap: {
+              loyaltyId: [{
+                id: user.username,
+                authenticatedState: 'authenticated',
+                primary: true
+              }]
+            },
+            userProfile: {
+              loyaltyTier: user.loyaltyTier,
+              isLoggedIn: true,
+              storeRegion: user.storeRegion,
+              postalCode: user.postalCode
+            }
+          },
+          data: {
+            __adobe: {
+              target: {
+                'profile.loyaltyTier': user.loyaltyTier,
+                'profile.storeRegion': user.storeRegion,
+                'profile.postalCode': user.postalCode
+              }
+            }
+          },
+          decisionScopes: [HERO_SCOPE]
+        };
+        log('sendEvent →', payload);
+        return alloy('sendEvent', payload);
+      }
+
+      function renderPropositions(result) {
+        var props = ((result && result.propositions) || []).filter(function (p) {
+          return p.scope === HERO_SCOPE;
+        });
+        if (!props.length) {
+          log('No personalization for scope "' + HERO_SCOPE + '" — showing default.');
+          return;
+        }
+        var html = props.reduce(function (acc, p) {
+          (p.items || []).forEach(function (it) {
+            if (it && it.data && it.data.content) acc += it.data.content;
+          });
+          return acc;
+        }, '');
+        if (html) {
+          $('hero-banner').innerHTML = html;
+          log('Rendered personalized hero.');
+          // notify Target for reporting
+          window.alloy('sendEvent', {
+            xdm: { eventType: 'decisioning.propositionDisplay' },
+            data: { __adobe: { target: { propositions: props } } }
+          });
+        }
+      }
+
+      function personalize(user) {
+        whenAlloyReady()
+          .then(function (alloy) { return sendLoginEvent(alloy, user); })
+          .then(renderPropositions)
+          .catch(function (err) { log('Web SDK error:', err && err.message || err); });
+      }
+
+      // ----- wire up UI -----
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = $('capstone-modal');
+
+        $('capstone-login-open').addEventListener('click', function () { modal.classList.add('open'); });
+        $('capstone-cancel').addEventListener('click', function () { modal.classList.remove('open'); });
+
+        $('capstone-login-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var user = {
+            username: $('capstone-username').value.trim(),
+            loyaltyTier: $('capstone-loyalty').value,
+            postalCode: $('capstone-postal').value.trim(),
+            storeRegion: $('capstone-region').value
+          };
+          saveUser(user);
+          applyLoggedInUi(user);
+          modal.classList.remove('open');
+          personalize(user);
+        });
+
+        $('capstone-logout').addEventListener('click', function () {
+          clearUser();
+          applyLoggedOutUi();
+        });
+
+        // Re-hydrate on refresh / SPA reload
+        var existing = loadUser();
+        if (existing) {
+          applyLoggedInUi(existing);
+          personalize(existing);
+        }
+      });
+    })();
   </script>
 
 </body>
